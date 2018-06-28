@@ -1,0 +1,329 @@
+@import url('https://fonts.googleapis.com/css?family=EB+Garamond|Josefin+Slab');
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+
+slides > slide{
+  /* font-family: 'EB Garamond', Palatino, serif; */
+  font-family: "Source Sans Pro", "Open sans", sans-serif;
+  color: #262626;
+  background: white;
+  font-size: 1.4em;
+  line-height: 1.4em;
+}
+
+h1, h2, h3, h4, h5, h6  {
+  font-family: 'Josefin Slab', 'Open sans', sans-serif;
+  /* font-family: "Open sans", sans-serif; */
+  color: #117d6b;
+  background: white;
+}
+
+.title-slide hgroup h1{
+  color: #117d6b;
+  width: 90%;
+}
+
+.title-slide hgroup p{
+  color: #262626;
+  font-family: 'Helvetica Neue', Arial;
+  font-size: 120%;
+}
+
+.title-slide hgroup p:last-child{
+  font-size: 70%;
+}
+
+slides > slide:not(.nobackground):before {
+  width: 75px;
+  height: 75px;
+  background-size: 75px 75px;
+  top: 20px;
+  right: 20px;
+  left: auto;
+}
+slides > slide:not(.nobackground):after{
+  font-family: "Source Code Pro", Hasklig, monospace;
+}
+
+pre, code{
+  font-family: "Source Code Pro", Hasklig, monospace;
+  width: 100%;
+  left: 0;
+}
+
+pre {
+  padding: 10px 0 10px 10px;
+}
+
+ul > li:before {
+  content: '\2337';
+  margin-left: -1em;
+  position: absolute;
+  font-weight: 900;
+  font-size: 100%;
+}
+
+table.table.table-striped {
+  -webkit-font-smoothing: antialiased;
+  width: 100%!important;
+  font-size: 90%;
+}
+table.table.table-striped th {
+  background-color: rgb(112, 196, 105);
+  color: white;
+  font-size: 110%;
+  font-weight: bold;
+  padding: 5px 10px;
+  text-align: center;
+}
+table.table.table-striped td{
+  background-color: rgb(238, 238, 238);
+  color: rgb(111, 111, 111);
+  padding: 5px 10px;
+}
+
+slide.current article#final-slide{
+  background-color: white;
+  background: url('../_images/background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  position:absolute;
+  top:-50px;
+  bottom:-30px;
+  left:-30px;
+  right:-30px;
+  z-index:999;
+}
+slide.current article#final-slide:after{
+  content: "Photo by: Hanny Naibaho on Unsplash";
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+  color: whitesmoke;
+  font-family: "Source Code Pro", monospace;
+  z-index: 1000;
+  font-size:0.7em;
+}
+
+.columns-2 ul, .columns-2 ol {
+    -webkit-transform: none;
+}
+
+.columns-3 {
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+    -ms-column-count: 3;
+    -o-column-count: 3;
+    column-count: 3;
+}
+
+blockquote{
+  animation: hero-entry 3s;
+}
+@keyframes hero-entry{
+  from {
+    opacity: 0;
+    /*width: 50%;*/
+  }
+  to {
+    opacity: 1;
+    /*width: 100%;*/
+  }
+}
+.quotation{
+  font-family: "EB Garamond", "Palatino", "Bookman old";
+  font-size: 1.4em;
+  margin: 0;
+  margin-top: 20px;
+  quotes: "\201C""\201D""\2018""\2019";
+  padding: 5px 30px;
+  line-height: 1.4;
+}
+
+.quotation:before {
+  content: open-quote;
+  display: inline;
+  height: 0;
+  line-height: 0;
+  left: -10px;
+  position: relative;
+  top: 30px;
+  color: #ccc;
+  font-size: 3em;
+}
+.quotation::after {
+  content: close-quote;
+  display: inline;
+  height: 0;
+  line-height: 0;
+  left: 10px;
+  position: relative;
+  top: 35px;
+  color: #ccc;
+  font-size: 3em;
+}
+footer{
+  font-family: 'Helvetica Neue', Arial;
+  font-weight: 300;
+  text-align: center;
+  font-size: 0.7em;
+}
+footer cite{
+  font-style: italic;
+}
+
+article#acknoledgement .card-container {
+  display: flex;
+  flex-direction: column;
+}
+
+article#acknoledgement .card-container .person {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+    font-family: "EB Gramond", Gramond;
+    
+}
+article#acknoledgement .card-container .person .name {
+    padding-bottom: 25px;
+    margin-bottom: 0px;
+    padding-left: 10px;
+    line-height: 0.2em;
+}
+
+article#acknoledgement .card-container .person img{
+  max-width: 200px;
+  border: 10px solid whitesmoke;
+}
+
+#acknoledgement .thank-you-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 450px;
+    width: 450px;
+    align-items: center;
+    background-color: whitesmoke;
+    margin: 0 auto;
+    line-height: 0;
+}
+#acknoledgement .thank-you-container h3{
+  background-color: initial;
+  font-family: "EB Garamond", "Palatino", "Bookman old";
+  font-size: 3em;
+}
+#acknoledgement .thank-you-container #extra-thanks{
+  margin-top: -15px;
+    line-height: 0.25em;
+    text-align: center;
+}
+#acknoledgement .thank-you-container #extra-thanks p:first-child{
+  font-size: 1.4em;
+}
+
+div#refs {
+    font-size: 0.8em;
+    column-count: 2;
+    font-family: Palatino;
+}
+
+#get-started{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 300px;
+    width: 450px;
+    align-items: center;
+    background-color: whitesmoke;
+    margin: 0 auto;
+    line-height: 0;
+}
+#get-started h3{
+  background-color: initial;
+  font-family: "EB Garamond", "Palatino", "Bookman old";
+  font-size: 3em;
+  text-align: center;
+  width: 80%;
+  line-height: 1em;
+}
+
+/* Extra Logo */
+slide.title-slide hgroup:before {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: -194px;
+    background: url(../_images/user-logo.png);
+    background-position: center;
+    background-size: cover;
+    height: 100px;
+    width: 195px;
+}
+
+/* Installation Wrapper */
+#installation-wrapper{
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 5fr 2fr;
+  grid-gap: 20px;
+}
+
+@supports not (display: grid) {
+  #simrel-hex {
+    display: none;
+  }
+  #installation-wrapper{
+    display: flex;
+  }
+}
+
+/* Simrel Hex logo 
+slide.title-slide hgroup:after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    bottom: -95px;
+    background: url(../_images/simrel-hex.png);
+    background-position: center;
+    background-size: cover;
+    height: 100px;
+    width: 87px;
+}
+*/
+
+/* Notes and Presenter*/
+.with-notes.popup .note {
+    font-size: medium;
+    line-height: initial;
+    font-family: "Source Code Pro", monospace;
+}
+
+.with-notes.popup .note ul{
+    columns: 2;
+    column-gap: 80px;
+    column-rule: 1px solid grey;
+}
+
+.with-notes.popup .note ul li{
+    padding-bottom: 10px;
+}
+
+.with-notes.popup slide.backdrop {
+    background-image: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 600, color-stop(0%, #add), color-stop(100%, #ada));
+    background-image: -webkit-radial-gradient(50% 50%, #add 0%, #ada 600px);
+    background-image: -moz-radial-gradient(50% 50%, #add 0%, #ada 600px);
+    background-image: -o-radial-gradient(50% 50%, #add 0%, #ada 600px);
+    background-image: radial-gradient(50% 50%, #add 0%, #ada 600px);
+}
+
+/* Level 1 Text background */
+.level1.current h2{
+  background: none;
+}
+.auto-fadein {
+    -webkit-transition: display 0.6s ease-in;
+    -webkit-transition-delay: 0.4s;
+    -moz-transition: display 0.6s ease-in 0.4s;
+    -o-transition: display 0.6s ease-in 0.4s;
+    transition: display 0.6s ease-in 0.4s;
+    opacity: 0;
+}
