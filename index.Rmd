@@ -1,7 +1,7 @@
 ---
 title: "A versatile tool for simulating linear model data"
 author: Raju Rimal, Trygve Almøy and Solve Sæbø
-date: "`r format(Sys.Date(), '%A, %d %B %Y')`"
+date: "`r format(Sys.Date(), '%A, %d %B %Y')` | https://goo.gl/9xDZqk"
 fontsize: 10pt
 linestretch: 1.25
 bibliography: references.bib
