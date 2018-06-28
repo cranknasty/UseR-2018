@@ -327,3 +327,7 @@ slide.title-slide hgroup:after {
     transition: display 0.6s ease-in 0.4s;
     opacity: 0;
 }
+
+.level1.current {
+  background-color:whitesmoke!important;
+}

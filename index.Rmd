@@ -20,7 +20,6 @@ output:
     logo: '_images/logo.png'
     smaller: no
     widescreen: yes
-    after_body: _footer.html
 editor_options:
   chunk_output_type: console
 ---
@@ -59,12 +58,12 @@ sobj <- simrel(
 ## {.flexbox .vcenter}
 
 <div class="notes">
-  - Hi, my name is Raju. I am from Norwegian University of life sciences.
-  - I am working on a new estimation method to utilize background information for better prediction as part of my PhD.
-  - PAUSE
-  - The Scottish Philosopher Thomas Carlyle, once said that man is a tool-using animal. Without tools he is nothing and with tools he is all.
-  - For next 20 minutes, I will be talking about a versatile tool for simulation of linear model data called _simrel_ that will help researchers to build, validate and study new methods, algorithm and models.
-  - I have been working on this with my supervisors Solve Sæbø and Trygve Almøy
+- Hi, my name is Raju. I am from Norwegian University of life sciences.
+- I am working on a new estimation method to utilize background information for better prediction as part of my PhD.
+- PAUSE
+- The Scottish Philosopher Thomas Carlyle, once said that man is a tool-using animal. Without tools he is nothing and with tools he is all.
+- For next 20 minutes, I will be talking about a versatile tool for simulation of linear model data called _simrel_ that will help researchers to build, validate and study new methods, algorithm and models.
+- I have been working on this with my supervisors Solve Sæbø and Trygve Almøy
 </div>
 
 
@@ -80,12 +79,12 @@ knitr::include_graphics("_images/simrel-papershot.png")
 ## {.flexbox .vcenter}
 
 <div class="notes">
-  - Hi, my name is Raju. I am from Norwegian University of life sciences.
-  - I am working on a new estimation method to utilize background information for better prediction as part of my PhD.
-  - PAUSE
-  - The Scottish Philosopher Thomas Carlyle, once said that man is a tool-using animal. Without tools he is nothing and with tools he is all.
-  - For next 20 minutes, I will be talking about a versatile tool for simulation of linear model data called _simrel_ that will help researchers to build, validate and study new methods, algorithm and models.
-  - I have been working on this with my supervisors Solve Sæbø and Trygve Almøy
+- Hi, my name is Raju. I am from Norwegian University of life sciences.
+- I am working on a new estimation method to utilize background information for better prediction as part of my PhD.
+- PAUSE
+- The Scottish Philosopher Thomas Carlyle, once said that man is a tool-using animal. Without tools he is nothing and with tools he is all.
+- For next 20 minutes, I will be talking about a versatile tool for simulation of linear model data called _simrel_ that will help researchers to build, validate and study new methods, algorithm and models.
+- I have been working on this with my supervisors Solve Sæbø and Trygve Almøy
 </div>
 
 
@@ -106,21 +105,29 @@ knitr::include_graphics("_images/comic-strip.svg")
 ```
 
 <div class="notes">
-  - Researchers try to validate and compare their works weather it is a method or an algorithm or a model using simulated data.
-  - Simulated data gives a control to the researcher to study any unforeseen situation that might occur during implementation.
-  - But when the specification becomes complex, things starts to get confusing. Researchers spend a lot of time to create these simulated data. 
-  - This is where the `simrel` helps out in wide range of cases.
+- Researchers try to validate and compare their works weather it is a method or an algorithm or a model using simulated data.
+- Simulated data gives a control to the researcher to study any unforeseen situation that might occur during implementation.
+- But when the specification becomes complex, things starts to get confusing. Researchers spend a lot of time to create these simulated data. 
+- This is where the `simrel` helps out in wide range of cases.
 </div>
 
 ## The Model {.columns-2}
 
+```{r}
+set.seed(2018)
+sobj2 <- simrel(n = 100, p = 5, m = 3, q = 5, relpos = list(1:5), ypos = list(1:3), 
+                R2 = 0.8, gamma = 0.5, eta = 0, type = "multivariate")
+```
+
 <div class="notes">
-  - simrel is an R-package and a shiny application. With few tuning parameters, it lets users to simulated data with wide range of properties.
-  - Data based on a model is controlled by its covariance structure. For example, a model with 3 responses and 5 predictors has a covariance matrix of 36 unknown numbers that controls the relationship between and within these predictors and responses.
-  - Here, these off diagonal elements controls the relationship between $X$ and $Y$ and the diagonal matrices controls the variation within them.
+- simrel is an R-package and a shiny application. With few tuning parameters, it lets users to simulated data with wide range of properties.
+- Data based on a model is controlled by its covariance structure. For example, a model with 3 responses and 5 predictors has a covariance matrix of 36 unknown numbers that controls the relationship between and within these predictors and responses.
+- Here, these off diagonal elements controls the relationship between $X$ and $Y$ and the diagonal matrices controls the variation within them.
 </div>
 
-$$\begin{bmatrix}y \\ x \end{bmatrix} \sim \mathcal{N}\left(
+$$
+\begin{equation}
+\begin{bmatrix}y \\ x \end{bmatrix} \sim \mathcal{N}\left(
 \begin{bmatrix}
 \mu_y \\ \mu_x
 \end{bmatrix},
@@ -128,8 +135,9 @@ $$\begin{bmatrix}y \\ x \end{bmatrix} \sim \mathcal{N}\left(
 \Sigma_{yy} & \Sigma_{yx}\\
 \Sigma_{xy} & \Sigma_{xx}
 \end{bmatrix}}
-\right)$$
-
+\right)
+\end{equation}
+$$
 There are $\frac{1}{2}(p + m)(p + m + 1)$ unknowns to identify this model.
 
 ```{r}
@@ -140,18 +148,23 @@ grid.draw(plt1)
 
 <div style="break-before: column;"></div>
 
-```{r, fig.asp=1, fig.width = 3.5, out.width='70%'}
-set.seed(2018)
-sobj1 <- simrel(n = 100, p = 5, m = 3, q = 5, relpos = list(1:5), ypos = list(1:3), 
-                R2 = 0.8, gamma = 0.5, eta = 0, type = "multivariate")
-cov_plot(sobj1, type = "relpred", facetting = FALSE) +
+equivalently,
+
+$$
+\begin{equation}
+\mathbf{y} = \beta_0 + \boldsymbol{\beta}^t\mathbf{x} + \boldsymbol{\varepsilon}
+\end{equation}
+$$
+
+also, we can express, $\boldsymbol{\beta}^t = \Sigma_{xx}^{-1}\Sigma_{xy}$
+
+```{r, fig.width = 3, out.width='100%', fig.asp=0.7}
+cov_plot(sobj2, type = "relpred", facetting = FALSE, ordering = FALSE) +
   scale_fill_brewer(palette = "YlGnBu", direction = -1) +
   theme(legend.position = 'none',
         axis.text = element_text(family = "mono"),
         axis.text.x = element_text(angle = 0, hjust = 0.5))
 ```
-
-The variation within predictor ($X$) and response ($Y$) is controlled by the _diagonal matrices_ and the relationship between the $X$ and $Y$ is controlled by a _off-diagonal matrix_.
 
 ## Reduction of Regression Model {.columns-2}
 
@@ -160,17 +173,17 @@ The variation within predictor ($X$) and response ($Y$) is controlled by the _di
 - Thus, we started by constructing covariance of these relevant and irrelevant principal components. 
 </div>
 
-$$\begin{bmatrix}y \\ x \end{bmatrix} \sim \mathcal{N}\left(
+$$\begin{bmatrix}w \\ z \end{bmatrix} \sim \mathcal{N}\left(
 \begin{bmatrix}
-\mu_y \\ \mu_x
+\mu_w \\ \mu_z
 \end{bmatrix},
 \underset{(m + p)\times(m + p)}{\begin{bmatrix}
-\Sigma_{yy} & \Sigma_{yx}\\
-\Sigma_{xy} & \Sigma_{xx}
+\Sigma_{ww} & \Sigma_{wz}\\
+\Sigma_{zw} & \Sigma_{zz}
 \end{bmatrix}}
 \right)$$
 
-There are $\frac{1}{2}(p + m)(p + m + 1)$ unknowns to identify this model.
+$\frac{1}{2}(p + m)(p + m + 1)$ unknowns can be reduced and parameterized.
 
 ```{r}
 plt2 <- gList(rect_box, rel_space, titles, labels, in_labels, arrow_ann, bottom_ann_grob)
@@ -192,7 +205,7 @@ cov_plot(sobj2, type = "relpos", facetting = FALSE, ordering = FALSE) +
 ```
 
 A subspace in predictor space spanned by subset of _predictor components_ is relevant for the response. Also, only a subspace of response space spanned by subset of _response components_ is informative.
-
+<!--
 ## Parameterization {.columns-2}
 
 ```{r, eval=FALSE, echo = TRUE}
@@ -445,7 +458,15 @@ ggsimrelplot(sobj, which = 3)
 ```
 
 The properties propagate to related response variables in simulated data.
+-->
 
+# [Shiny App](http://localhost:5555) {.light}
+<!--
+# {data-background=_images/ss-01.png data-background-size=cover}
+# {data-background=_images/ss-02.png data-background-size=cover}
+# {data-background=_images/ss-03.png data-background-size=cover}
+# {data-background=_images/ss-04.png data-background-size=cover}
+-->
 ## Application of simrel {.columns-2}
 
 ```{r}
@@ -476,88 +497,103 @@ cat(bib_out)
 <h3>Let's Get Started</h3>
 </div>
 
-## An Example {.columns-2}
+## An Example (comparison of two estimators) {.columns-2}
 ```{r example-sim, echo = -1}
 set.seed(2018)
-design <- tibble(gamma = c(0.2, 1.2)) %>% 
-  mutate(sim_obj = map(gamma, ~simrel(
-    n      = 500,
-    p      = 10, 
-    m      = 3,
-    q      = 10,
-    relpos = list(1:5),
-    ypos   = list(1:3),
-    gamma  = .x,
-    eta    = 0,
-    R2     = 0.8,
-    type   = "multivariate"
-  )))
+design <- crossing(
+  gamma = c(0.1, 1.2),
+  relpos = c("1:5", "5:9")) %>% 
+  mutate(relpos = map(
+    relpos, ~eval(parse(text = .x))),
+    sim_obj = map2(gamma, relpos, 
+      ## <b>
+      ~simrel(
+        n      = 500,
+        p      = 10, m = 3,
+        q      = 10,
+        relpos = list(.y),
+        ypos   = list(1:3),
+        gamma  = .x,
+        eta    = 0, R2 = 0.8,
+        type   = "multivariate"
+      )
+      ## </b>
+    ))
 ```
- 
+
 <div style="break-before: column;"></div>
 
 ```{r}
 ce <- design %>% 
-  group_by(gamma) %>% 
+  mutate(relpos = map_chr(relpos, ~deparse(unlist(.x)))) %>% 
+  group_by(gamma, relpos) %>% 
   transmute(pcr = map(sim_obj, coef_errors, "PCR"),
             pls = map(sim_obj, coef_errors, "PLS2"))
 est_error <- ce %>% 
-  mutate_at(-1, map, "prediction_error") %>% 
-  gather(method, est_err, -gamma) %>% 
+  mutate_at(-c(1:2), map, "prediction_error") %>% 
+  gather(method, est_err, pcr,pls) %>% 
   unnest()
 pred_error <- ce %>% 
-  mutate_at(-1, map, "estimation_error") %>% 
-  gather(method, pred_err, -gamma) %>% 
+  mutate_at(-c(1:2), map, "estimation_error") %>% 
+  gather(method, pred_err, pcr, pls) %>% 
   unnest()
 error_df <- pred_error %>% 
   left_join(est_error) %>% 
   rename(Prediction = Pred_Error, Estimation = Est_Error) %>% 
-  gather(error_type, error, Prediction, Estimation)
+  gather(error_type, error, Prediction, Estimation) %>% 
+  group_by(method, Tuning_Param, error_type, add = TRUE) %>% 
+  summarize_at("error", sum) %>% 
+  ungroup() %>% 
+  mutate(gamma = case_when(
+    gamma == 0.1 ~ 'Low',
+    gamma == 1.2 ~ 'High'
+  ))
+```
 
-plt <- ggplot(
-  data = error_df, 
+```{r}
+gamma_label <- function(string) paste("Multicollinearity:", string)
+filter_plt <- function(df, fltr_chr){
+  df %>% filter_(fltr_chr) %>% 
+  ggplot(
   mapping = aes(
     Tuning_Param, error, 
-    alpha = gamma, color = method,
-    group = interaction(gamma, method))) +
+    color = method,
+    group = interaction(relpos, gamma, method))) +
   geom_line() + geom_point() +
-  facet_grid(error_type ~ Response, scales = "free",
-             labeller = labeller(Response = label_both)) +
+  facet_grid(error_type ~ gamma, scales = "free",
+             labeller = labeller(gamma = gamma_label)) +
   labs(x = "Number of Components", y = "Error", 
-       color = "Method", alpha = "Multicollinearity") +
+       color = "Method", alpha = "Position of relevant component") +
   theme(legend.position = "top") +
-  scale_alpha_continuous(range = c(0.4, 1), 
-                         breaks = c(0.2, 1.2), 
-                         labels = c("Low", "High")) +
   scale_color_brewer(palette = "Set1", labels = toupper) +
   scale_x_continuous(breaks = seq(0, 10, 2))
+}
 ```
 
 ```{r design-print}
-design
+design %>% mutate_at("relpos", map_chr, deparse)
 ```
 
-## An Example {.columns-2}
-```{r example-sim, echo = -1, eval = FALSE}
-```
- 
-<div style="break-before: column;"></div>
+### Estimator under comparison
 
-```{r design-print}
-```
-
+- Principal Component Regression (PCR)
+- Partial Least Squares (PLS)
 
 ## An Example
 
 ```{r, fig.width=8, out.width='100%', fig.asp = 0.5}
-plt
+filter_plt(error_df, 'relpos == "1:5"') +
+  ggtitle("Relevant Principal Components are at 1:5")
 ```
 
-# Shiny App
-# {data-background=_images/ss-01.png data-background-size=cover}
-# {data-background=_images/ss-02.png data-background-size=cover}
-# {data-background=_images/ss-03.png data-background-size=cover}
-# {data-background=_images/ss-04.png data-background-size=cover}
+## An Example
+
+```{r, fig.width=8, out.width='100%', fig.asp = 0.5}
+filter_plt(error_df, 'relpos == "5:9"') +
+  ggtitle("Relevant Principal Components are at 5:9")
+```
+
+
 ## Shiny Application and Installation {.flexbox .vcenter}
 
 <div id="installation-wrapper">
