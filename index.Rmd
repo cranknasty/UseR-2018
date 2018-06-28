@@ -521,8 +521,6 @@ design <- crossing(
     ))
 ```
 
-<div style="break-before: column;"></div>
-
 ```{r}
 ce <- design %>% 
   mutate(relpos = map_chr(relpos, ~deparse(unlist(.x)))) %>% 
@@ -569,6 +567,8 @@ filter_plt <- function(df, fltr_chr){
   scale_x_continuous(breaks = seq(0, 10, 2))
 }
 ```
+
+<div style="break-before: column;"></div>
 
 ```{r design-print}
 design %>% mutate_at("relpos", map_chr, deparse)
