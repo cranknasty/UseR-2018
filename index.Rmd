@@ -45,13 +45,13 @@ source("_script/00-function.R")
 ```{r sim_code, echo=FALSE}
 set.seed(2018)
 sobj <- simrel(
-  n = 100, 
-  p = 5, m = 3, 
-  q = 3, 
-  relpos = list(1:2), 
-  ypos = list(1), 
-  R2 = 0.8, 
-  gamma = 0.5, eta = 0, 
+  n = 100,
+  p = 5, m = 3,
+  q = 3,
+  relpos = list(1:2),
+  ypos = list(1),
+  R2 = 0.8,
+  gamma = 0.5, eta = 0,
   type = "multivariate")
 ```
 
@@ -107,7 +107,7 @@ knitr::include_graphics("_images/comic-strip.svg")
 <div class="notes">
 - Researchers try to validate and compare their works weather it is a method or an algorithm or a model using simulated data.
 - Simulated data gives a control to the researcher to study any unforeseen situation that might occur during implementation.
-- But when the specification becomes complex, things starts to get confusing. Researchers spend a lot of time to create these simulated data. 
+- But when the specification becomes complex, things starts to get confusing. Researchers spend a lot of time to create these simulated data.
 - This is where the `simrel` helps out in wide range of cases.
 </div>
 
@@ -115,7 +115,7 @@ knitr::include_graphics("_images/comic-strip.svg")
 
 ```{r}
 set.seed(2018)
-sobj2 <- simrel(n = 100, p = 5, m = 3, q = 5, relpos = list(1:5), ypos = list(1:3), 
+sobj2 <- simrel(n = 100, p = 5, m = 3, q = 5, relpos = list(1:5), ypos = list(1:3),
                 R2 = 0.8, gamma = 0.5, eta = 0, type = "multivariate")
 ```
 
@@ -170,7 +170,7 @@ cov_plot(sobj2, type = "relpred", facetting = FALSE, ordering = FALSE) +
 
 <div class="notes">
 - In simrel, we have implemented the concept of relevant components. The concept assumes that there exists a subspace that contains the relevant information and the relevant part of the data is spanned by a subset of principal components.
-- Thus, we started by constructing covariance of these relevant and irrelevant principal components. 
+- Thus, we started by constructing covariance of these relevant and irrelevant principal components.
 </div>
 
 $$\begin{bmatrix}w \\ z \end{bmatrix} \sim \mathcal{N}\left(
@@ -195,7 +195,7 @@ grid.draw(plt2)
 
 ```{r, fig.asp=1, fig.width = 3.5, out.width='70%'}
 set.seed(2018)
-sobj2 <- simrel(n = 100, p = 5, m = 3, q = 3, relpos = list(1:2), ypos = list(1), 
+sobj2 <- simrel(n = 100, p = 5, m = 3, q = 3, relpos = list(1:2), ypos = list(1),
                 R2 = 0.8, gamma = 0.5, eta = 0, type = "multivariate")
 cov_plot(sobj2, type = "relpos", facetting = FALSE, ordering = FALSE) +
   scale_fill_brewer(palette = "YlGnBu", direction = -1) +
@@ -210,16 +210,16 @@ A subspace in predictor space spanned by subset of _predictor components_ is rel
 
 ```{r, eval=FALSE, echo = TRUE}
 sobj <- simrel(
-  n = 100, 
+  n = 100,
   ##<b>
-  p = 5, m = 3, 
+  p = 5, m = 3,
   ##</b>
-  q = 3, 
-  relpos = list(1:2), 
-  ypos = list(1), 
-  R2 = 0.8, 
-  gamma = 0.5, 
-  eta = 0, 
+  q = 3,
+  relpos = list(1:2),
+  ypos = list(1),
+  R2 = 0.8,
+  gamma = 0.5,
+  eta = 0,
   type = "multivariate"
 )
 ```
@@ -242,7 +242,7 @@ get_cov_plot <- function(sobj, ncol){
           axis.text = element_text(family = "mono"),
           axis.text.x = element_text(angle = 0, hjust = 0.5)) +
     ggtitle("Covariance Matrix", subtitle = "Response and Predictors")
-  gridExtra::grid.arrange(p1, p2, ncol = ncol) 
+  gridExtra::grid.arrange(p1, p2, ncol = ncol)
 }
 get_cov_plot(sobj, 2)
 ```
@@ -253,16 +253,16 @@ The only unknowns are the non-white squares of left plot which is sampled from a
 
 ```{r, eval=FALSE, echo = TRUE}
 sobj <- simrel(
-  n = 100, 
+  n = 100,
   ##<b>
-  p = 5, m = 3, 
-  q = 3, 
+  p = 5, m = 3,
+  q = 3,
   ##</b>
-  relpos = list(1:2), 
-  ypos = list(1), 
-  R2 = 0.8, 
-  gamma = 0.5, 
-  eta = 0, 
+  relpos = list(1:2),
+  ypos = list(1),
+  R2 = 0.8,
+  gamma = 0.5,
+  eta = 0,
   type = "multivariate"
 )
 ```
@@ -280,16 +280,16 @@ The only unknowns are the non-white squares of left plot which is sampled from a
 
 ```{r, eval=FALSE, echo = TRUE}
 sobj <- simrel(
-  n = 100, 
+  n = 100,
   ##<b>
-  p = 5, m = 3, 
-  q = 3, 
-  relpos = list(1:2), 
+  p = 5, m = 3,
+  q = 3,
+  relpos = list(1:2),
   ##</b>
-  ypos = list(1), 
-  R2 = 0.8, 
-  gamma = 0.5, 
-  eta = 0, 
+  ypos = list(1),
+  R2 = 0.8,
+  gamma = 0.5,
+  eta = 0,
   type = "multivariate"
 )
 ```
@@ -307,16 +307,16 @@ The only unknowns are the non-white squares of left plot which is sampled from a
 
 ```{r, eval=FALSE, echo = TRUE}
 sobj <- simrel(
-  n = 100, 
-  p = 5, m = 3, 
-  q = 3, 
-  relpos = list(1:2), 
+  n = 100,
+  p = 5, m = 3,
+  q = 3,
+  relpos = list(1:2),
   ##<b>
-  ypos = list(1), 
-  R2 = 0.8, 
+  ypos = list(1),
+  R2 = 0.8,
   ##</b>
-  gamma = 0.5, 
-  eta = 0, 
+  gamma = 0.5,
+  eta = 0,
   type = "multivariate"
 )
 ```
@@ -335,16 +335,16 @@ The only unknowns are the non-white squares of left plot which is sampled from a
 ```{r, eval=TRUE, echo = -1}
 set.seed(2018)
 sobj <- simrel(
-  n = 100, 
-  p = 5, m = 3, 
-  q = 3, 
-  relpos = list(1:2), 
+  n = 100,
+  p = 5, m = 3,
+  q = 3,
+  relpos = list(1:2),
   ##<b>
-  ypos = list(1:3), 
-  R2 = 0.8, 
+  ypos = list(1:3),
+  R2 = 0.8,
   ##</b>
-  gamma = 0.5, 
-  eta = 0, 
+  gamma = 0.5,
+  eta = 0,
   type = "multivariate"
 )
 ```
@@ -365,15 +365,15 @@ The only unknowns are the non-white squares of left plot which is sampled from a
 ```{r, eval=TRUE, echo = -1}
 set.seed(2018)
 sobj <- simrel(
-  n = 100, 
-  p = 5, m = 3, 
-  q = 3, 
-  relpos = list(1:2), 
-  ypos = list(1:3), 
-  R2 = 0.8, 
+  n = 100,
+  p = 5, m = 3,
+  q = 3,
+  relpos = list(1:2),
+  ypos = list(1:3),
+  R2 = 0.8,
   ##<b>
-  gamma = 0.5, 
-  eta = 0, 
+  gamma = 0.5,
+  eta = 0,
   ##</b>
   type = "multivariate"
 )
@@ -393,15 +393,15 @@ The non-white squares in the diagonals of left plot are the eigenvalues.
 ```{r, eval=TRUE, echo = -1}
 set.seed(2018)
 sobj <- simrel(
-  n = 100, 
-  p = 5, m = 3, 
-  q = 3, 
-  relpos = list(1:2), 
-  ypos = list(1:3), 
-  R2 = 0.8, 
+  n = 100,
+  p = 5, m = 3,
+  q = 3,
+  relpos = list(1:2),
+  ypos = list(1:3),
+  R2 = 0.8,
   ##<b>
-  gamma = 0.5, 
-  eta = 0, 
+  gamma = 0.5,
+  eta = 0,
   ##</b>
   type = "multivariate"
 )
@@ -502,10 +502,10 @@ cat(bib_out)
 set.seed(2018)
 design <- crossing(
   gamma = c(0.1, 1.2),
-  relpos = c("1:5", "5:9")) %>% 
+  relpos = c("1:5", "5:9")) %>%
   mutate(relpos = map(
     relpos, ~eval(parse(text = .x))),
-    sim_obj = map2(gamma, relpos, 
+    sim_obj = map2(gamma, relpos,
       ## <b>
       ~simrel(
         n      = 500,
@@ -522,26 +522,26 @@ design <- crossing(
 ```
 
 ```{r}
-ce <- design %>% 
-  mutate(relpos = map_chr(relpos, ~deparse(unlist(.x)))) %>% 
-  group_by(gamma, relpos) %>% 
+ce <- design %>%
+  mutate(relpos = map_chr(relpos, ~deparse(unlist(.x)))) %>%
+  group_by(gamma, relpos) %>%
   transmute(pcr = map(sim_obj, coef_errors, "PCR"),
             pls = map(sim_obj, coef_errors, "PLS2"))
-est_error <- ce %>% 
-  mutate_at(-c(1:2), map, "prediction_error") %>% 
-  gather(method, est_err, pcr,pls) %>% 
+est_error <- ce %>%
+  mutate_at(-c(1:2), map, "prediction_error") %>%
+  gather(method, est_err, pcr,pls) %>%
   unnest()
-pred_error <- ce %>% 
-  mutate_at(-c(1:2), map, "estimation_error") %>% 
-  gather(method, pred_err, pcr, pls) %>% 
+pred_error <- ce %>%
+  mutate_at(-c(1:2), map, "estimation_error") %>%
+  gather(method, pred_err, pcr, pls) %>%
   unnest()
-error_df <- pred_error %>% 
-  left_join(est_error) %>% 
-  rename(Prediction = Pred_Error, Estimation = Est_Error) %>% 
-  gather(error_type, error, Prediction, Estimation) %>% 
-  group_by(method, Tuning_Param, error_type, add = TRUE) %>% 
-  summarize_at("error", sum) %>% 
-  ungroup() %>% 
+error_df <- pred_error %>%
+  left_join(est_error) %>%
+  rename(Prediction = Pred_Error, Estimation = Est_Error) %>%
+  gather(error_type, error, Prediction, Estimation) %>%
+  group_by(method, Tuning_Param, error_type, add = TRUE) %>%
+  summarize_at("error", sum) %>%
+  ungroup() %>%
   mutate(gamma = case_when(
     gamma == 0.1 ~ 'Low',
     gamma == 1.2 ~ 'High'
@@ -551,16 +551,16 @@ error_df <- pred_error %>%
 ```{r}
 gamma_label <- function(string) paste("Multicollinearity:", string)
 filter_plt <- function(df, fltr_chr){
-  df %>% filter_(fltr_chr) %>% 
+  df %>% filter_(fltr_chr) %>%
   ggplot(
   mapping = aes(
-    Tuning_Param, error, 
+    Tuning_Param, error,
     color = method,
     group = interaction(relpos, gamma, method))) +
   geom_line() + geom_point() +
   facet_grid(error_type ~ gamma, scales = "free",
              labeller = labeller(gamma = gamma_label)) +
-  labs(x = "Number of Components", y = "Error", 
+  labs(x = "Number of Components", y = "Error",
        color = "Method", alpha = "Position of relevant component") +
   theme(legend.position = "top") +
   scale_color_brewer(palette = "Set1", labels = toupper) +
