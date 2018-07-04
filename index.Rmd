@@ -36,7 +36,9 @@ opts_chunk$set(
   message = FALSE, warning = FALSE,
   retina = 2, dev = 'svg')
 is_latex <- knitr::is_latex_output()
-pal <- rev(RColorBrewer::brewer.pal(3, "YlGnBu"))
+col_vec <- rev(RColorBrewer::brewer.pal(3, "Set2"))
+rel_col <- alpha(col_vec[3], 1)
+irrel_col <- alpha(col_vec[2], 0.4)
 source("_script/relevant-space.R")
 source("_script/var-rect-plot.R")
 source("_script/00-function.R")
@@ -100,7 +102,7 @@ knitr::include_graphics("_images/papershot.png")
 
 ## Why simrel
 
-```{r comic, out.width='85%'}
+```{r comic, out.width='100%'}
 knitr::include_graphics("_images/comic-strip.svg")
 ```
 
@@ -141,9 +143,11 @@ $$
 There are $\frac{1}{2}(p + m)(p + m + 1)$ unknowns to identify this model.
 
 ```{r}
-plt1 <- gList(rect_box, labels, titles, arrow_ann[3:4])
+plt <- plot_model(irrel_col, rel_col, 1, 0.3)
 grid.newpage()
-grid.draw(plt1)
+grid.draw(grid_by_name(plt, "rect_box|labels|titles"))
+grid.draw(grid_by_name(plt, "arrow_ann")[3:4])
+# grid.draw(plt$rect_box, plt$labels, plt$titles, plt$arrow_ann[3:4])
 ```
 
 <div style="break-before: column;"></div>
@@ -156,11 +160,11 @@ $$
 \end{equation}
 $$
 
-also, we can express, $\boldsymbol{\beta}^t = \Sigma_{xx}^{-1}\Sigma_{xy}$
+also, we can express, $\boldsymbol{\beta} = \Sigma_{xx}^{-1}\Sigma_{xy}$
 
 ```{r, fig.width = 3, out.width='100%', fig.asp=0.7}
 cov_plot(sobj2, type = "relpred", facetting = FALSE, ordering = FALSE) +
-  scale_fill_brewer(palette = "YlGnBu", direction = -1) +
+  scale_fill_brewer(palette = "Set2", direction = 1) +
   theme(legend.position = 'none',
         axis.text = element_text(family = "mono"),
         axis.text.x = element_text(angle = 0, hjust = 0.5))
@@ -186,9 +190,9 @@ $$\begin{bmatrix}w \\ z \end{bmatrix} \sim \mathcal{N}\left(
 $\frac{1}{2}(p + m)(p + m + 1)$ unknowns can be reduced and parameterized.
 
 ```{r}
-plt2 <- gList(rect_box, rel_space, titles, labels, in_labels, arrow_ann, bottom_ann_grob)
+plt <- plot_model(rel_col, irrel_col, 1, 0.3)
 grid.newpage()
-grid.draw(plt2)
+grid.draw(grid_by_name(plt, "rect_box|rel_space|labels|titles|in_labels|arrow_ann|bottom_ann_grob"))
 ```
 
 <div style="break-before: column;"></div>
@@ -198,275 +202,15 @@ set.seed(2018)
 sobj2 <- simrel(n = 100, p = 5, m = 3, q = 3, relpos = list(1:2), ypos = list(1),
                 R2 = 0.8, gamma = 0.5, eta = 0, type = "multivariate")
 cov_plot(sobj2, type = "relpos", facetting = FALSE, ordering = FALSE) +
-  scale_fill_brewer(palette = "YlGnBu", direction = -1) +
+  scale_fill_brewer(palette = "Set2", direction = 1) +
   theme(legend.position = 'none',
         axis.text = element_text(family = "mono"),
         axis.text.x = element_text(angle = 0, hjust = 0.5))
 ```
 
 A subspace in predictor space spanned by subset of _predictor components_ is relevant for the response. Also, only a subspace of response space spanned by subset of _response components_ is informative.
-<!--
-## Parameterization {.columns-2}
-
-```{r, eval=FALSE, echo = TRUE}
-sobj <- simrel(
-  n = 100,
-  ##<b>
-  p = 5, m = 3,
-  ##</b>
-  q = 3,
-  relpos = list(1:2),
-  ypos = list(1),
-  R2 = 0.8,
-  gamma = 0.5,
-  eta = 0,
-  type = "multivariate"
-)
-```
-
-__We are simulating 5 predictors and 3 responses.__
-
-<div style="break-before: column;"></div>
-
-```{r cov-mat, fig.width = 5, fig.asp=0.7, out.width='100%'}
-get_cov_plot <- function(sobj, ncol){
-  p1 <- cov_plot(sobj, type = "relpos", facetting = FALSE, ordering = FALSE) +
-    scale_fill_brewer(palette = "YlGnBu", direction = -1) +
-    theme(legend.position = 'none',
-          axis.text = element_text(family = "mono"),
-          axis.text.x = element_text(angle = 0, hjust = 0.5)) +
-    ggtitle("Covariance Matrix", subtitle = "Principal Components")
-  p2 <- cov_plot(sobj, type = "relpred", facetting = FALSE, ordering = FALSE) +
-    scale_fill_brewer(palette = "YlGnBu", direction = -1) +
-    theme(legend.position = 'none',
-          axis.text = element_text(family = "mono"),
-          axis.text.x = element_text(angle = 0, hjust = 0.5)) +
-    ggtitle("Covariance Matrix", subtitle = "Response and Predictors")
-  gridExtra::grid.arrange(p1, p2, ncol = ncol)
-}
-get_cov_plot(sobj, 2)
-```
-
-The only unknowns are the non-white squares of left plot which is sampled from a standard normal distribution that satisfies all the parameters settings given by the user.
-
-## Parameterization {.columns-2}
-
-```{r, eval=FALSE, echo = TRUE}
-sobj <- simrel(
-  n = 100,
-  ##<b>
-  p = 5, m = 3,
-  q = 3,
-  ##</b>
-  relpos = list(1:2),
-  ypos = list(1),
-  R2 = 0.8,
-  gamma = 0.5,
-  eta = 0,
-  type = "multivariate"
-)
-```
-
-We are simulating 5 predictors and 3 responses. __Out of 5, only 3 predictors in the simulated data need to be relevant to the response.__
-
-<div style="break-before: column;"></div>
-
-```{r cov-mat, fig.width = 5, fig.asp=0.7, out.width='100%'}
-```
-
-The only unknowns are the non-white squares of left plot which is sampled from a standard normal distribution that satisfies all the parameters settings given by the user.
-
-## Parameterization {.columns-2}
-
-```{r, eval=FALSE, echo = TRUE}
-sobj <- simrel(
-  n = 100,
-  ##<b>
-  p = 5, m = 3,
-  q = 3,
-  relpos = list(1:2),
-  ##</b>
-  ypos = list(1),
-  R2 = 0.8,
-  gamma = 0.5,
-  eta = 0,
-  type = "multivariate"
-)
-```
-
-We are simulating 5 predictors and 3 responses. Out of 5, only 3 predictors in the simulated data need to be relevant to the response. __These three relevant predictors is spanned by the principal components 1 and 2.__
-
-<div style="break-before: column;"></div>
-
-```{r cov-mat, fig.width = 5, fig.asp=0.7, out.width='100%'}
-```
-
-The only unknowns are the non-white squares of left plot which is sampled from a standard normal distribution that satisfies all the parameters settings given by the user.
-
-## Parameterization {.columns-2}
-
-```{r, eval=FALSE, echo = TRUE}
-sobj <- simrel(
-  n = 100,
-  p = 5, m = 3,
-  q = 3,
-  relpos = list(1:2),
-  ##<b>
-  ypos = list(1),
-  R2 = 0.8,
-  ##</b>
-  gamma = 0.5,
-  eta = 0,
-  type = "multivariate"
-)
-```
-
-__The only response components has coefficient of determination of 0.8. Which is also true for the first response variable.__
-
-<div style="break-before: column;"></div>
-
-```{r cov-mat, fig.width = 5, fig.asp=0.7, out.width='100%'}
-```
-
-The only unknowns are the non-white squares of left plot which is sampled from a standard normal distribution that satisfies all the parameters settings given by the user.
-
-## Parameterization {.columns-2}
-
-```{r, eval=TRUE, echo = -1}
-set.seed(2018)
-sobj <- simrel(
-  n = 100,
-  p = 5, m = 3,
-  q = 3,
-  relpos = list(1:2),
-  ##<b>
-  ypos = list(1:3),
-  R2 = 0.8,
-  ##</b>
-  gamma = 0.5,
-  eta = 0,
-  type = "multivariate"
-)
-```
-
-The only response components has coefficient of determination of 0.8. Which is also true for the first response variable. __Mixing this with others blends the information in all response variables.__
-
-<div style="break-before: column;"></div>
-
-```{r cov-mat-1, fig.width = 5, fig.asp=0.7, out.width='100%'}
-get_cov_plot(sobj, 2)
-```
-
-The only unknowns are the non-white squares of left plot which is sampled from a standard normal distribution that satisfies all the parameters settings given by the user.
-
-
-## Parameterization {.columns-2}
-
-```{r, eval=TRUE, echo = -1}
-set.seed(2018)
-sobj <- simrel(
-  n = 100,
-  p = 5, m = 3,
-  q = 3,
-  relpos = list(1:2),
-  ypos = list(1:3),
-  R2 = 0.8,
-  ##<b>
-  gamma = 0.5,
-  eta = 0,
-  ##</b>
-  type = "multivariate"
-)
-```
-
-In simrel, one parameter controls the __exponential decay of eigenvalues__ which consequently __controls the multicollinearlity__ in the data as well as the __correlation between the response variables__.
-
-<div style="break-before: column;"></div>
-
-```{r cov-mat-1, fig.width = 5, fig.asp=0.7, out.width='100%'}
-```
-
-The non-white squares in the diagonals of left plot are the eigenvalues.
-
-## Parameterization {.columns-2}
-
-```{r, eval=TRUE, echo = -1}
-set.seed(2018)
-sobj <- simrel(
-  n = 100,
-  p = 5, m = 3,
-  q = 3,
-  relpos = list(1:2),
-  ypos = list(1:3),
-  R2 = 0.8,
-  ##<b>
-  gamma = 0.5,
-  eta = 0,
-  ##</b>
-  type = "multivariate"
-)
-```
-
-In simrel, one parameter controls the __exponential decay of eigenvalues__ which consequently __controls the multicollinearlity__ in the data as well as the __correlation between the response variables__.
-
-<div style="break-before: column;"></div>
-
-<div id="gamma-eqn" style="position: absolute; top: 15%; left: 70%; z-index: 1;">
-$$\lambda_i = e^{-\gamma (i - 1)}$$
-</div>
-
-```{r plotly}
-source("_script/gamma-animation.r", local = TRUE)
-ggplotly(static_plt) %>%
-  config(displayModeBar = FALSE) %>%
-  animation_opts(
-    800, easing = "elastic", redraw = TRUE
-  ) %>%
-  animation_button(
-    x = 1, xanchor = "right", y = 0, yanchor = "bottom",
-    borderwidth = 0, bgcolor = 'transparent',
-    font = list(family = "monospace", size = 32, color = "#afafaf")
-  ) %>%
-  animation_slider(
-    currentvalue = list(
-      x = 1, xanchor = 'right', y = 0, yanchor = 'bottom',
-      prefix = "gamma: ", font = list(color = "grey"))
-  )
-```
-
-## Accessing Properties of Data {.columns-3}
-
-```{r, fig.width=4}
-ggsimrelplot(sobj, which = 1)
-```
-
-Relevant predictors have non-zero coefficients (`r sort(unname(unlist(sobj$relpred)))`).
-
-<div style="break-before: column;"></div>
-
-
-```{r, fig.width=4}
-ggsimrelplot(sobj, which = 2)
-```
-
-Predictor components `r unlist(sobj$relpos)` are relevant to first response component.
-
-<div style="break-before: column;"></div>
-
-```{r, fig.width=4}
-ggsimrelplot(sobj, which = 3)
-```
-
-The properties propagate to related response variables in simulated data.
--->
 
 # [Shiny App](http://localhost:5555) {.light}
-<!--
-# {data-background=_images/ss-01.png data-background-size=cover}
-# {data-background=_images/ss-02.png data-background-size=cover}
-# {data-background=_images/ss-03.png data-background-size=cover}
-# {data-background=_images/ss-04.png data-background-size=cover}
--->
 ## Application of simrel {.columns-2}
 
 ```{r}
@@ -527,19 +271,14 @@ ce <- design %>%
   group_by(gamma, relpos) %>%
   transmute(pcr = map(sim_obj, coef_errors, "PCR"),
             pls = map(sim_obj, coef_errors, "PLS2"))
-est_error <- ce %>%
-  mutate_at(-c(1:2), map, "prediction_error") %>%
-  gather(method, est_err, pcr,pls) %>%
-  unnest()
 pred_error <- ce %>%
-  mutate_at(-c(1:2), map, "estimation_error") %>%
+  mutate_at(-c(1:2), map, "prediction_error") %>%
   gather(method, pred_err, pcr, pls) %>%
   unnest()
 error_df <- pred_error %>%
-  left_join(est_error) %>%
-  rename(Prediction = Pred_Error, Estimation = Est_Error) %>%
-  gather(error_type, error, Prediction, Estimation) %>%
-  group_by(method, Tuning_Param, error_type, add = TRUE) %>%
+  rename(error = Pred_Error,
+         ncomp = Tuning_Param) %>%
+  group_by(method, ncomp, add = TRUE) %>%
   summarize_at("error", sum) %>%
   ungroup() %>%
   mutate(gamma = case_when(
@@ -549,23 +288,18 @@ error_df <- pred_error %>%
 ```
 
 ```{r}
-gamma_label <- function(string) paste("Multicollinearity:", string)
-filter_plt <- function(df, fltr_chr){
-  df %>% filter_(fltr_chr) %>%
-  ggplot(
-  mapping = aes(
-    Tuning_Param, error,
-    color = method,
-    group = interaction(relpos, gamma, method))) +
-  geom_line() + geom_point() +
-  facet_grid(error_type ~ gamma, scales = "free",
-             labeller = labeller(gamma = gamma_label)) +
-  labs(x = "Number of Components", y = "Error",
-       color = "Method", alpha = "Position of relevant component") +
-  theme(legend.position = "top") +
-  scale_color_brewer(palette = "Set1", labels = toupper) +
-  scale_x_continuous(breaks = seq(0, 10, 2))
-}
+min_error <- error_df %>% 
+  group_by(method, relpos, gamma) %>% 
+  summarize(
+    ncomp = ncomp[which.min(error)],
+    error = min(error)
+  ) %>% 
+  rowwise() %>% 
+  mutate(lbl = paste0(
+    toupper(method),  ": ", 
+    round(error, 4), "(",
+    ncomp, ")"
+  ))
 ```
 
 <div style="break-before: column;"></div>
@@ -581,16 +315,30 @@ design %>% mutate_at("relpos", map_chr, deparse)
 
 ## An Example
 
-```{r, fig.width=8, out.width='100%', fig.asp = 0.5}
-filter_plt(error_df, 'relpos == "1:5"') +
-  ggtitle("Relevant Principal Components are at 1:5")
-```
-
-## An Example
-
-```{r, fig.width=8, out.width='100%', fig.asp = 0.5}
-filter_plt(error_df, 'relpos == "5:9"') +
-  ggtitle("Relevant Principal Components are at 5:9")
+```{r, out.width='100%', fig.width=8, fig.asp=0.52}
+gamma_label <- function(string) paste("Multicollinearity:", string)
+error_df %>% 
+  ggplot(
+    mapping = aes(
+      ncomp, error,
+      color = method)) +
+  geom_line() + geom_point() +
+  facet_grid(relpos ~ gamma, scales = "free",
+             labeller = labeller(
+               gamma = gamma_label,
+               relpos = label_both
+             )) +
+  labs(x = "Number of Components", y = "Prediction Error",
+       color = "Method", alpha = "Position of relevant component") +
+  theme(legend.position = "none",
+        strip.text = element_text(family = "Source Code Pro")) +
+  scale_color_brewer(palette = "Set2", labels = toupper) +
+  scale_x_continuous(breaks = seq(0, 10, 1)) +
+  geom_text(x = Inf, y = Inf, data = min_error, aes(label = lbl),
+            hjust = 1, vjust = rep(seq(2, 5, 2), nrow(min_error)/2),
+            show.legend = FALSE) +
+  geom_point(data = min_error, color = "white", size = rel(0.8), shape = 21,
+             aes(fill = method), stroke = 0.3, show.legend = FALSE)
 ```
 
 
@@ -653,7 +401,7 @@ knitr::include_graphics('_images/simrel-hex.svg')
 <div class="thank-you-container">
 <h3>Thank You</h3>
 <div id="extra-thanks">
-<img src="_images/user-logo.png" width = "195px" height = "100px"/>
+<img src="_images/user-logo-2.png" width = "195px" height = "100px"/>
 <p style="padding-top: 25px">For the opportunity</p>
 </div>
 </div>
